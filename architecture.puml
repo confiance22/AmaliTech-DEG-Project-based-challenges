@@ -1,0 +1,26 @@
+@startuml
+actor Client
+participant Gateway
+database Store
+
+Client -> Gateway: POST /process-payment (Idempotency-Key, body)
+Gateway -> Store: lookup key
+
+alt key not found
+  Store --> Gateway: not found
+  Gateway -> Store: create entry (in-flight)
+  Gateway -> Gateway: process payment (2s)
+  Gateway -> Store: store response, mark complete, notify
+  Gateway --> Client: 201 Created + body
+else key found, same body, completed
+  Store --> Gateway: cached response
+  Gateway --> Client: 201 Created + body (X-Cache-Hit: true)
+else key found, different body
+  Store --> Gateway: mismatch
+  Gateway --> Client: 422 Unprocessable Entity
+else key found, in-flight
+  Gateway -> Store: wait on entry lock
+  Store --> Gateway: completed response
+  Gateway --> Client: 201 Created + body (X-Cache-Hit: true)
+end
+@enduml
