@@ -67,5 +67,4 @@ RAWBODY=[{"amount":100,"currency":"RWF"}]
 {"message":"Charged 100 RWF"}
 ``n
 
-![Run Screenshot](screenshots/run.png)
 
