@@ -2,38 +2,13 @@
 
 A payment-processing idempotency layer that guarantees a payment is processed exactly once, even when clients retry the same request.
 
-## Architecture Diagram`n`n![Architecture Diagram](architecture.png)
+## Architecture Diagram
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant G as Gateway
-    participant S as In-Memory Store
-
-    C->>G: POST /process-payment (Idempotency-Key, body)
-    G->>S: lookup key
-    alt key not found
-        S-->>G: not found
-        G->>S: create entry (in-flight)
-        G->>G: process payment (2s delay)
-        G->>S: store response, mark complete, notify
-        G-->>C: 201 Created + body
-    else key found, same body, completed
-        S-->>G: cached response
-        G-->>C: 201 Created + body (X-Cache-Hit: true)
-    else key found, different body
-        S-->>G: mismatch
-        G-->>C: 422 Unprocessable Entity
-    else key found, in-flight
-        G->>S: wait on entry lock
-        S-->>G: completed response
-        G-->>C: 201 Created + body (X-Cache-Hit: true)
-    end
-```
+![Architecture Diagram](architecture.png)
 
 ## Setup Instructions
 
-Prerequisites: JDK 17+ and Gradle (or use the bundled wrapper if available).
+Prerequisites: JDK 17+ and Gradle.
 
 Run:
 
@@ -85,4 +60,3 @@ Returns `{"status":"ok"}`.
 ## Git Hygiene
 
 Multiple commits with meaningful messages are used throughout development.
-
