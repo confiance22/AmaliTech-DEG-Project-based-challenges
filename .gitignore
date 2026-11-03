@@ -6,3 +6,5 @@ bin/
 .gradle/
 *.class
 test*.json
+
+.vscode/
