@@ -2,7 +2,7 @@
 
 A payment-processing idempotency layer that guarantees a payment is processed exactly once, even when clients retry the same request.
 
-## Architecture Diagram`n`nSequence diagram source: `architecture.puml`.
+## Architecture Diagram`n`n![Architecture Diagram](architecture.png)
 
 ```mermaid
 sequenceDiagram
