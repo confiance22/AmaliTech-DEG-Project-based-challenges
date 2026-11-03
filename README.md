@@ -34,11 +34,11 @@ Headers:
 
 Body:
 ```json
-{"amount": 100, "currency": "GHS"}
+{"amount": 100, "currency": "RWF"}
 ```
 
 Responses:
-- `201 Created` `{"message":"Charged 100 GHS"}` (first request)
+- `201 Created` `{"message":"Charged 100 RWF"}` (first request)
 - `201 Created` + `X-Cache-Hit: true` (duplicate, cached)
 - `422 Unprocessable Entity` `{"error":"Idempotency key already used for a different request body."}` (key reuse with different body)
 - `400 Bad Request` (missing key or invalid body)
@@ -60,3 +60,10 @@ Returns `{"status":"ok"}`.
 ## Git Hygiene
 
 Multiple commits with meaningful messages are used throughout development.
+
+## Sample Run
+
+``nIdempotency-Gateway listening on port 3000
+RAWBODY=[{"amount":100,"currency":"RWF"}]
+{"message":"Charged 100 RWF"}
+``n
