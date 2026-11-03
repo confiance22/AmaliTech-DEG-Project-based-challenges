@@ -4,6 +4,8 @@ A payment-processing idempotency layer that guarantees a payment is processed ex
 
 ## Architecture Diagram
 
+![Architecture Diagram](architecture.png)
+
 
 ## Setup Instructions
 
